@@ -44,7 +44,7 @@ router.post('/login', async(req, res) => {
     if (!isPasswordValid) { return res.status(400).json({ 'message': 'Password does not match' }); }
 
     // JWT Security
-    const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({ 'message' : 'User successfully logged in' });
   } catch (error) {
