@@ -9,16 +9,9 @@ const uri = "mongodb+srv://Cluster92906:SnF4b3ZWanVS@trainerapp.s0tb2mi.mongodb.
 app.use(cors());
 app.use(express.json());
 
-async function connect() {
-  try {
-    await mongoose.connect(uri);
-    console.log("Successfully connected to MongoDB Atlas");
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-connect();
+mongoose.connect(uri)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
