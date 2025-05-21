@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect  } from 'react';
 import axios from 'axios';
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
   const [ user, setUser ] = useState(null);
@@ -12,7 +12,7 @@ export const AuthProvider = (props) => {
     if (token) {
       setToken(storedToken);
     }
-  }, []);
+  }, [token]);
 
   const login = async (email, password) => {
     try {
