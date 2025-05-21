@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = (props) => {
   const [ user, setUser ] = useState(null);
   const [ token, setToken ] = useState(null);
 
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>
-      { children }
+      { props.children }
     </AuthContext.Provider>
   )
 }
