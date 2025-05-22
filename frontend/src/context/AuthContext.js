@@ -25,6 +25,17 @@ export const AuthProvider = (props) => {
     }
   }
 
+  const register = async (name, email, password) => {
+    try {
+      console.log("Register function called (AuthContext)", name, email, password);
+      const response = await axios.post('/api/auth/register', { name, email, password });
+      return response.data;
+    } catch (error) {
+      console.error('Register error: ', error);
+      throw error;
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
@@ -32,7 +43,7 @@ export const AuthProvider = (props) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, register }}>
       { props.children }
     </AuthContext.Provider>
   )

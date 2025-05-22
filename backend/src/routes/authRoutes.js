@@ -12,7 +12,7 @@ router.post('/register', async(req, res) => {
     if (!email || !password) { return res.status(400).json({ 'message': 'Email and password required' }); };
     
     // Check if user already exists
-    const existingUser = User.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) { return res.status(400).json({ 'message': 'User already exists'}); };
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,7 +36,7 @@ router.post('/login', async(req, res) => {
     const { email, password } = req.body;
   
     // Check if user's email exists
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) { return res.status(400).json({ 'message': 'User cannot be found' }); }
   
     // Check if user's password matches
@@ -46,7 +46,7 @@ router.post('/login', async(req, res) => {
     // JWT Security
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).json({ 'message' : 'User successfully logged in' });
+    res.status(200).json({ token, userId: user._id, role: user.role });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ 'message': 'Login failed' });
