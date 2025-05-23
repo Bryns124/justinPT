@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: #fff;
+}
+
+.homepage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-image: url('../imgs/gym-image.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.homepage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 64px 16px 64px;
+  /* background: transparent; */
+  background: #000;
+  opacity: 0.8;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+nav a {
+  margin-left: 0;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #3182ce;
+}
+
+.booking-btn {
+  display: inline-block;
+  margin-left: 40px;
+  padding: 16px 40px;
+  background: #38a169;
+  color: #fff;
+  border-radius: 32px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(56, 161, 105, 0.15);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.booking-btn:hover {
+  background: #49c78c;
+  box-shadow: 0 6px 32px rgba(56, 161, 105, 0.25);
+}
+
+.homepage-hero {
+  flex: 1;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  background: #000;
+  opacity: 0.8;
+}
+
+.main-left {
+  flex: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 5px solid red; */
+  padding: 0 3rem 10rem 17rem;
+  margin: 0;
+}
+
+.main-right {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  /* border: 5px solid red; */
+  margin: 0;
+  padding: 0 17rem 0 3rem;
+}
+
+.homepage-hero h1 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.homepage-hero p {
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 32px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 16px 40px;
+  background: #38a169;
+  color: #fff;
+  border-radius: 32px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(49, 130, 206, 0.15);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.cta-button:hover {
+  background: #49c78c;
+  box-shadow: 0 6px 32px rgba(49, 130, 206, 0.25);
+}

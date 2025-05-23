@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import './LoginRegisterForm.css'
+import '../assets/css/LoginRegisterForm.css';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
     setError('');
     try {
       await login(email, password);
-      navigate('/login');
+      navigate('/homepage');
     } catch (error) {
       setError("Invalid email or password.");
     }

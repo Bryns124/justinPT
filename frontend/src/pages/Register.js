@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext'
-import './LoginRegisterForm.css'
+import { AuthContext } from '../context/AuthContext';
+import '../assets/css/LoginRegisterForm.css';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {

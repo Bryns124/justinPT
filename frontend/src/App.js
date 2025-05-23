@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Login from './pages/Login'
 import Register from './pages/Register'
-// import Dashboard from './pages/Dashboard'
-// import ProtectedRoute from './components/ProtectedRoute'
+import HomePage from './pages/HomePage'
+// import Booking from './pages/Booking'
 
 function App() {
   return (
@@ -13,7 +13,13 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} /> */}
+          <Route path="/homepage" element={<HomePage />} />
+          {/* <Route path="/about" element={<About />} /> */}
+          {/* <Route path="/faqs" element={<Faqs />} /> */}
+          {/* <Route path="/booking" element={<Booking />} /> */}
+          {/* <Route path="/programs" element={<TrainingPrograms />} /> */}
+          {/* <Route path="/contact" element={<Contact />} /> */}
+          {/* <Route path="/quiz" element={<Quiz />} /> */}
           {/* Create more routes */}
         </Routes>
       </Router>
