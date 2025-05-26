@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: #fff;
+  background: #e0ddd1;
 }
 
 .homepage {
@@ -11,7 +11,7 @@ body {
 }
 
 .main-container {
-  flex: 1;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-image: url('../imgs/gym-image.jpg');
@@ -51,7 +51,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #3182ce;
+  color: #49c78c;
 }
 
 .booking-btn {
@@ -134,4 +134,284 @@ nav a:hover {
 .cta-button:hover {
   background: #49c78c;
   box-shadow: 0 6px 32px rgba(49, 130, 206, 0.25);
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 80px 64px;
+  background: #f5f5f5;
+  text-align: center;
+}
+
+.testimonials-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 60px;
+  color: #333;
+}
+
+.testimonials-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-content {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.testimonial-content.fade-out {
+  opacity: 0;
+}
+
+.testimonial-content.fade-in {
+  opacity: 1;
+}
+
+.before-after-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+.image-container {
+  position: relative;
+  flex: 0 0 300px;
+}
+
+.image-container img {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.image-label {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.quote-container {
+  flex: 0 0 300px;
+  padding: 40px;
+  position: relative;
+}
+
+.quote-icon {
+  font-size: 2rem;
+  color: #38a169;
+  margin-bottom: 20px;
+}
+
+.testimonial-quote {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.testimonial-name {
+  font-weight: 600;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.carousel-arrow {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.3s;
+}
+
+.carousel-arrow:hover {
+  color: #38a169;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 12px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: #ccc;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.indicator.active {
+  background: #38a169;
+  width: 32px;
+  border-radius: 5px;
+}
+
+.indicator:hover {
+  background: #999;
+}
+
+/* Quiz and Programs Section */
+.quiz-programs-section {
+  padding: 80px 64px;
+  background: #e0ddd1;
+}
+
+.quiz-programs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+.quiz-content {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.quiz-content h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.quiz-content h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.quiz-content p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.quiz-btn-wrapper {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.quiz-btn {
+  padding: 16px 48px;
+  background: #38a169;
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 24px rgba(56, 161, 105, 0.15);
+}
+
+.quiz-btn:hover {
+  background: #49c78c;
+  transform: scale(1.05);
+  box-shadow: 0 6px 32px rgba(56, 161, 105, 0.25);
+}
+
+.programs-showcase {
+  flex: 1;
+}
+
+.programs-showcase h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.program-cards {
+  display: flex;
+  gap: 24px;
+}
+
+.program-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.program-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.program-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.program-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.program-card h4 {
+  padding: 16px 20px 8px;
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.program-price {
+  padding: 0 20px;
+  font-size: 1.5rem;
+  color: #38a169;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.program-btn {
+  width: calc(100% - 40px);
+  margin: 0 20px 20px;
+  padding: 12px 24px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.program-btn:hover {
+  background: #555;
 }
