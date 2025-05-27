@@ -75,15 +75,21 @@ const HomePage = () => {
     <div className="homepage">
       <div className="main-container">
         <header className="homepage-header">
+        <Link to="/" style={{ textDecoration: 'none' }}>
           <div className="logo">JML Fitness</div>
+        </Link>
           <nav>
+            {user && (
+              <>
+              <Link to="/dashboard">Dashboard</Link>
+              </>
+            )}
             <Link to="/about">About</Link>
             <Link to="/programs">Programs</Link>
             <Link to="/faqs">FAQs</Link>
             <Link to="/contact">Contact</Link>
             {user ? (
               <>
-                <Link to="/dashboard">Dashboard</Link>
                 <Link className="logout-link" onClick={handleLogout}>
                   Logout
                 </Link>
@@ -102,7 +108,7 @@ const HomePage = () => {
           <div className="main-right">
             <p>Personal training that builds real strength, mobility and confidence - not just athletics. Designed for everyday people who want to feel and move better in real life</p><br></br>
             <p>Book your free 30 min consultation now.</p>
-            <Link to="/signup" className="cta-button">
+            <Link to="/booking" className="cta-button">
               Get Started
             </Link>
           </div>

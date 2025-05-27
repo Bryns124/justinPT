@@ -4,6 +4,10 @@ body {
   background: #e0ddd1;
 }
 
+Link {
+  text-decoration: none;
+}
+
 .homepage {
   min-height: 100vh;
   display: flex;
@@ -58,7 +62,7 @@ nav a:hover {
   display: inline-block;
   margin-left: 40px;
   padding: 16px 40px;
-  background: #38a169;
+  background-color: #4CAF50;
   color: #fff;
   border-radius: 32px;
   font-size: 1rem;

@@ -1,0 +1,154 @@
+.contact-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1200px;
+  width: 100%;
+  align-items: start;
+}
+
+.contact-info {
+  padding-right: 2rem;
+}
+
+.contact-info h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.contact-info p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.contact-form {
+  background: white;
+  padding: 2.5rem;
+  padding-right: 4rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.name-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  /* width: 100%; */
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.send-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100px;
+}
+
+.send-btn:hover {
+  background: #49c78c;
+  box-shadow: 0 6px 32px rgba(56, 161, 105, 0.25);
+}
+
+.status-message {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.success-message {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.message-icon {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 15px;
+  min-width: 30px;
+  text-align: center;
+}
+
+.success-message .message-icon {
+  color: #28a745;
+}
+
+.error-message .message-icon {
+  color: #dc3545;
+}
+
+.message-content h3 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.message-content p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
