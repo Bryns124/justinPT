@@ -97,7 +97,7 @@ const HomePage = () => {
             ) : (
               <Link to="/login">Login</Link>
             )}
-            <i class="fa-solid fa-bag-shopping"></i>
+            {/* <i class="fa-solid fa-bag-shopping"></i> */}
             <button className="booking-btn" onClick={handleBooking}>Book Now</button>
           </nav>
         </header>
@@ -119,20 +119,11 @@ const HomePage = () => {
         <div className="testimonials-container">
           <div className={`testimonial-content ${testimonialTransitioning ? 'fade-out' : 'fade-in'}`}>
             <div className="before-after-wrapper">
-              {/* <div className="image-container before">
-                <img 
-                  src={testimonials[currentTestimonial].beforeImage} 
-                  alt="Before transformation"
-                  // onError={(e) => {e.target.src = 'https://via.placeholder.com/400x500/333/fff?text=Before'}}
-                />
-                <span className="image-label">Before</span>
-              </div> */}
               <div className="image-container before">
                 <div className="image-wrapper">
                   <img 
                     src={testimonials[currentTestimonial].beforeImage} 
                     alt="Before transformation"
-                    // onError={(e) => {e.target.src = 'https://via.placeholder.com/400x500/333/fff?text=Before'}}
                   />
                 </div>
                 <span className="image-label">Before</span>
@@ -148,7 +139,6 @@ const HomePage = () => {
                 <img 
                   src={testimonials[currentTestimonial].afterImage} 
                   alt="After transformation"
-                  // onError={(e) => {e.target.src = 'https://via.placeholder.com/400x500/333/fff?text=After'}}
                 />
                 <span className="image-label">After</span>
               </div>
@@ -183,7 +173,7 @@ const HomePage = () => {
             <h2>Find Your Perfect Training Program</h2>
             <h3>Not sure which program is right for you?</h3>
             <p>No worries — take our quick quiz! Just answer a few simple questions about your goals, experience, and lifestyle, and we'll recommend the best training plan to get you started. It only takes a minute!</p>
-            <div class="quiz-btn-wrapper">
+            <div className="quiz-btn-wrapper">
               <button className="quiz-btn" onClick={() => navigate('/quiz')}>
                 TAKE QUIZ
               </button>

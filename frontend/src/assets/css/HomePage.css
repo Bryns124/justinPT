@@ -21,6 +21,7 @@ Link {
   background-image: url('../imgs/gym-image.jpg');
   background-size: cover;
   background-position: center;
+  padding-top: 98px;
 }
 
 .homepage-header {
@@ -31,6 +32,11 @@ Link {
   /* background: transparent; */
   background: #000;
   opacity: 0.8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 
 .logo {

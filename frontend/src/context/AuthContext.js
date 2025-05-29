@@ -20,7 +20,8 @@ export const AuthProvider = (props) => {
       const { token, userId, role } = response.data;
       setToken(token);
       setUser({ userId, role });
-      document.cookie = token;
+      localStorage.setItem('token', token);
+      // document.cookie = `token=${token}`;
       console.log('response data is: ', token, userId, role);
     } catch (error) {
       console.error('Login error: ', error);
@@ -42,7 +43,7 @@ export const AuthProvider = (props) => {
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
-    document.cookie='';
+    // document.cookie='';
   }
 
   return (

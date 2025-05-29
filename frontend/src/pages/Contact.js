@@ -71,7 +71,7 @@ const Contact = () => {
         ) : (
           <Link to="/login">Login</Link>
         )}
-        <i class="fa-solid fa-bag-shopping"></i>
+        {/* <i class="fa-solid fa-bag-shopping"></i> */}
         <button className="booking-btn" onClick={handleBooking}>Book Now</button>
       </nav>
     </header>

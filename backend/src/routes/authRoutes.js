@@ -53,4 +53,24 @@ router.post('/login', async(req, res) => {
   }
 })
 
+// Temporary route to create a trainer
+// router.post('/create-trainer', async(req, res) => {
+//   try {
+//     const hashedPassword = await bcrypt.hash('trainer123', 10);
+    
+//     const trainer = new User({
+//       name: 'Justin Le',
+//       email: 'justinlept@gmail.com',
+//       password: hashedPassword,
+//       role: 'trainer'
+//     });
+    
+//     await trainer.save();
+//     res.status(200).json({ message: 'Trainer created successfully' });
+//   } catch (error) {
+//     console.error('Error creating trainer:', error);
+//     res.status(500).json({ message: 'Failed to create trainer' });
+//   }
+// });
+
 module.exports = router;
