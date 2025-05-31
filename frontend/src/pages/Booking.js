@@ -4,134 +4,181 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../assets/css/Booking.css';
 
 const Booking = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [ selectedDate, setSelectedDate ] = useState('');
   const [ availableSlots, setAvailableSlots ] = useState([]);
-  const [ bookedSlots, setBookedSlots ] = useState([]);
-  const [ selectedSlot, setSelectedSlot ] = useState('')
+  const [ selectedSlot, setSelectedSlot ] = useState('');
+  const [ duration, setDuration ] = useState(60);
   const [ notes, setNotes ] = useState('');
-  const [ bookingStatus, setBookingStatus ] = useState('');
-  // const [ trainerID, setTrainerID ] = useState('');
-  const [ message, setMessage ] = useState('');
-  const [ messageType, setMessageType ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ error, setError ] = useState('');
+  const [ success, setSuccess ] = useState('');
+  const [ myBookings, setMyBookings ] = useState([]);
+  const [ confirmCancel, setConfirmCancel] = useState(null);
+  // const [ bookedSlots, setBookedSlots ] = useState([]);
+  // const [ bookingStatus, setBookingStatus ] = useState('');
+  // const [ trainerID, setTrainerID ] = useState('');
+  // const [ message, setMessage ] = useState('');
+  // const [ messageType, setMessageType ] = useState('');
 
-  const generateTimeSlots = () => {
-    const slots = [];
-    for (let hour = 9; hour <= 18; hour++) {
-      const time = `${hour.toString().padStart(2, '0')}:00`;
-      let displayTime = hour <= 12 ? `${hour}:00 AM` : `${hour - 12}:00 PM`;
-      if (hour === 12) displayTime = '12:00 PM';
-      slots.push({ value: time, display: displayTime });
-    }
-    return slots;
-  }
-
-  const timeSlots = generateTimeSlots();
+  // most likely want non-logged-in users to be able to make bookings.
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate('/login');
+  //   }
+  // }, [user, navigate]);
 
   useEffect(() => {
-    if (selectedDate) {
-      fetchBookedSlots();
+    if (user && token) {
+      fetchMyBookings();
     }
-  }, [selectedDate]);
+  }, [user, token]);
 
-  const fetchBookedSlots = async () => {
+  const fetchMyBookings = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/booking/availability?date=${selectedDate}`, {
+      const response = await fetch('/api/booking/my-bookings', {
+        method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch bookings');
+      }
+      console.log('response status is: ', response.status);
+      console.log('response is: ', response);
+
+      const data = await response.json();
+      console.log('Data: ', data);
+      setMyBookings(data.bookings);
+      console.log('Data.bookings: ', data.bookings);
+    } catch (error) {
+      console.error('Error fetchiing bookings: ', error);
+    }
+  }
+
+  const fetchAvailability = async (date) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/booking/availability/${date}`, {
+        method: 'GET',
+        headers: {
+          // 'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         }
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        const bookedTimes = data.bookedSlots.map(slot => {
-          const date = new Date(slot);
-          return `${date.getHours().toString().padStart(2, '0')}:00`;
-        });
-        setBookedSlots(bookedTimes);
+      if (!response.ok) {
+        throw new Error('Failed to fetch available slots');
       }
+
+      const data = await response.json();
+      setAvailableSlots(data.availableSlots);
+      setError('')
     } catch (error) {
       console.error('Error fetching unavailability: ', error);
+      setError('Failed to get available slots');
+      setAvailableSlots([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDateChange = (e) => {
     const date = e.target.value;
     setSelectedDate(date);
-
-    if (date.length === 10) {
-      const today = new Date().toISOString().split('T')[0];
-      
-      if (date < today) {
-        setMessage('Please select a future date');
-        setMessageType('error');
-        return;
-      }
-    }
-
     setSelectedSlot('');
-    setMessage('');
-    setMessageType('');
-  };
 
-  const handleSlotSelect = (slot) => {
-    setSelectedSlot(slot);
-    setMessage('');
-  }
+    if (date) {
+      fetchAvailability(date);
+    } else {
+      setAvailableSlots([]);
+    }
+  };
 
   const handleBooking = async (e) => {
     e.preventDefault();
     
-    // if (!user) {
-    //   navigate('/')
-    // }
-    if (!selectedDate || !selectedSlot) {
-      setMessage('Please select both date and time');
-      setMessageType('error');
+    if (!selectedSlot) {
+      setError('Please select a time slot');
       return;
     }
 
-    setLoading(true);
-
     try {
-      const [ hours, minutes ] = selectedSlot.split(':');
-      const bookingDateTime = new Date(selectedDate);
-      bookingDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-      const token = localStorage.getItem('token');
+      setLoading(true);
+      setError('');
+      
+      const timeslotToSend = selectedSlot instanceof Date 
+      ? selectedSlot.toISOString() 
+      : selectedSlot;
+
+      console.log('Timeslot to send:', timeslotToSend);
+
       const response = await fetch('/api/booking/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          timeslot: bookingDateTime.toISOString(),
+          timeslot: selectedSlot,
+          duration,
           notes
         })
       });
 
-      if (response.ok) {
-        setMessage('Booking created successfully! You will receive a confirmation email shortly.')
-        setMessageType('success');
-        // Reset form
-        setSelectedDate('');
-        setSelectedSlot('');
-        setNotes('');
-      } else {
-        const errorData = await response.json();
-        setMessage(errorData.message || 'Booking failed');
-        setMessageType('error');
+      if (!response.ok) {
+        throw new Error('Failed to create booking');
       }
+
+      setSuccess('Booking created successfully!');
+      setSelectedDate('');
+      setSelectedSlot('');
+      setNotes('');
+      setAvailableSlots([]);
+      fetchMyBookings();
+      
+      setTimeout(() => setSuccess(''), 3000);
+      
     } catch (error) {
-      console.error('Booking error:', error);
-      setMessage('Booking failed. Please try again.');
-      setMessageType('error');
+      setError('Failed to create booking');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      const response = await fetch(`/api/booking/${bookingId}/cancel`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // update status to cancelled immediately
+        setMyBookings(prev => prev.map(booking => booking._id === bookingId ? {...booking, status: 'cancelled' } : booking));
+        setConfirmCancel(null);
+      }
+      
+      setSuccess('Booking cancelled successfully');
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error) {
+      setError('Failed to cancel booking');
+      setConfirmCancel(null);
+    }
+  };
+
+  const handleCancelConfirmation = (bookingId, confirm) => {
+    if (confirm) {
+      handleCancelBooking(bookingId);
+    } else {
+      setConfirmCancel(null); // Just hide the confirmation
     }
   };
 
@@ -140,27 +187,61 @@ const Booking = () => {
     navigate('/');
   };
 
-  const handleBookingNav = () => {
-    navigate('/booking');
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const formatTime = (dateString) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const removeExistingCancelledBookings = async () => {
+    try {
+      const response = await fetch('/api/booking/clear-cancelled', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setMyBookings(prev => prev.filter(booking => booking.status !== 'cancelled'));
+      }
+    } catch (error) {
+      console.error('Error clearing cancelled bookings: ', error);
+    }
   };
 
   // Minimum date (today) so previous dates aren't selectable
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <>
+    <div className="booking-container">
       <header className="homepage-header">
         <Link to="/" style={{ textDecoration: 'none' }}>
           <div className="logo">JML Fitness</div>
         </Link>
         <nav>
+          {user && (
+            <>
+            <Link to="/dashboard">Dashboard</Link>
+            </>
+          )}
           <Link to="/about">About</Link>
           <Link to="/programs">Programs</Link>
           <Link to="/faqs">FAQs</Link>
           <Link to="/contact">Contact</Link>
           {user ? (
             <>
-              <Link to="/dashboard">Dashboard</Link>
               <Link className="logout-link" onClick={handleLogout}>
                 Logout
               </Link>
@@ -168,104 +249,170 @@ const Booking = () => {
           ) : (
             <Link to="/login">Login</Link>
           )}
-          <button className="booking-btn" onClick={handleBookingNav}>Book Now</button>
+          {/* <i class="fa-solid fa-bag-shopping"></i> */}
+          <button className="booking-btn" onClick={handleBooking}>Book Now</button>
         </nav>
       </header>
+      <div className="booking-header">
+        <h1>Book Your Consultation</h1>
+        <p>Schedule a personalised session with our expert trainer</p>
+      </div>
 
-      <div className="booking-container">
-        <div className="booking-content">
-          <h1>Book Your Session</h1>
-          <p>Select your preferred date and time for your training session.</p>
+      {error && <div className="error-message">{error}</div>}
+      {success && <div className="success-message">{success}</div>}
 
+      <div className="booking-content">
+        <div className="booking-form-section">
+          <h2>Schedule New Booking</h2>
           <form onSubmit={handleBooking} className="booking-form">
-            {/* Service Selection
             <div className="form-group">
-              <label htmlFor="service">Service Type</label>
-              <select
-                id="service"
-                value={service}
-                onChange={(e) => setService(e.target.value)}
-                className="form-select"
-              >
-                <option value="consultation">Free Consultation (30 min)</option>
-                <option value="training">Personal Training (60 min)</option>
-                <option value="assessment">Fitness Assessment (45 min)</option>
-              </select>
-            </div> */}
-
-            {/* Date Selection */}
-            <div className="form-group">
-              <label htmlFor="date">Select Date</label>
+              <label htmlFor="date">Select Date:</label>
               <input
                 type="date"
                 id="date"
                 value={selectedDate}
                 onChange={handleDateChange}
                 min={today}
-                className="form-input"
                 required
               />
             </div>
 
-            {/* Time Slot Selection */}
             {selectedDate && (
               <div className="form-group">
-                <label>Available Time Slots</label>
-                <div className="time-slots-grid">
-                  {timeSlots.map((slot) => {
-                    const isBooked = bookedSlots.includes(slot.value);
-                    const isSelected = selectedSlot === slot.value;
-                    
-                    return (
+                <label>Available Time Slots:</label>
+                {loading ? (
+                  <div className="loading">Loading available slots...</div>
+                ) : availableSlots.length > 0 ? (
+                  <div className="time-slots">
+                    {availableSlots.map((slot, index) => (
                       <button
-                        key={slot.value}
+                        key={index}
                         type="button"
-                        className={`time-slot ${isBooked ? 'booked' : ''} ${isSelected ? 'selected' : ''}`}
-                        onClick={() => !isBooked && handleSlotSelect(slot.value)}
-                        disabled={isBooked}
+                        className={`time-slot ${selectedSlot === slot ? 'selected' : ''}`}
+                        onClick={() => setSelectedSlot(slot)}
                       >
-                        {slot.display}
-                        {isBooked && <span className="booked-label">Booked</span>}
+                        {formatTime(slot)}
                       </button>
-                    );
-                  })}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="no-slots">No available slots for this date</div>
+                )}
               </div>
             )}
 
-            {/* Notes */}
             <div className="form-group">
-              <label htmlFor="notes">Additional Notes (Optional)</label>
+              <label htmlFor="duration">Session Duration:</label>
+              <select
+                id="duration"
+                value={duration}
+                onChange={(e) => setDuration(Number(e.target.value))}
+              >
+                <option value={30}>30 minutes</option>
+                <option value={45}>45 minutes</option>
+                <option value={60}>60 minutes</option>
+                <option value={90}>90 minutes</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="notes">Notes (Optional):</label>
               <textarea
                 id="notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Any specific goals, concerns, or requests..."
-                className="form-textarea"
-                rows="4"
+                placeholder="Any specific goals or requirements..."
+                maxLength={500}
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className="submit-btn"
-              disabled={loading || !selectedDate || !selectedSlot}
+              className="book-button"
+              disabled={loading || !selectedSlot}
             >
               {loading ? 'Booking...' : 'Book Session'}
             </button>
           </form>
+        </div>
 
-          {/* Message Display */}
-          {message && (
-            <div className={`message ${messageType}`}>
-              {message}
+        <div className="my-bookings-section">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2>My Bookings</h2>
+            {myBookings.some(booking => booking.status === 'cancelled') && (
+              <button 
+                className="clear-cancelled-btn"
+                onClick={removeExistingCancelledBookings}
+              >
+                Clear Cancelled
+              </button>
+            )}
+          </div>
+          {myBookings.length > 0 ? (
+            <div className="bookings-list">
+              {myBookings.map((booking) => (
+                <div key={booking._id} className={`booking-card ${booking.status}}`}>
+                  <div className="booking-info">
+                    <div className="booking-date">
+                      {formatDate(booking.timeslot)}
+                    </div>
+                    <div className="booking-time">
+                      {formatTime(booking.timeslot)} ({booking.duration} min)
+                    </div>
+                    <div className="booking-trainer">
+                      Trainer: {booking.trainer.name}
+                    </div>
+                    <div className={`booking-status ${booking.status}`}>
+                      Status: {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                    </div>
+                    {booking.notes && (
+                      <div className="booking-notes">
+                        Notes: {booking.notes}
+                      </div>
+                    )}
+                  </div>
+                  {booking.status !== 'cancelled' && (
+                    <div className="cancel-section">
+                      {confirmCancel === booking._id ? (
+                        <div className="cancel-confirmation">
+                          <div className="cancel-confirmation-text">
+                            Are you sure you want to cancel?
+                          </div>
+                          <div className="cancel-confirmation-buttons">
+                            <button
+                              className="confirm-yes-button"
+                              onClick={() => handleCancelConfirmation(booking._id, true)}
+                            >
+                              Yes
+                            </button>
+                            <button
+                              className="confirm-no-button"
+                              onClick={() => handleCancelConfirmation(booking._id, false)}
+                            >
+                              No
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          className="cancel-button"
+                          onClick={() => setConfirmCancel(booking._id)}
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
+          ) : (
+            <div className="no-bookings">No bookings yet</div>
           )}
         </div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
 export default Booking;

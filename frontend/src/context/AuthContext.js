@@ -9,10 +9,41 @@ export const AuthProvider = (props) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    if (token) {
+    if (storedToken) {
       setToken(storedToken);
+      // validate token and get user data
+      validateTokenAndSetUser(storedToken);
     }
-  }, [token]);
+  }, []);
+
+  const validateTokenAndSetUser = async (token) => {
+    try {
+      const response = await fetch('/api/auth/validate', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'appplication/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+      } else {
+        // token is invalid
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setToken(null);
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('Token validation error: ', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setToken(null);
+      setUser(null);
+    }
+  }
 
   const login = async (email, password) => {
     try {
@@ -21,6 +52,7 @@ export const AuthProvider = (props) => {
       setToken(token);
       setUser({ userId, role });
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify({ userId, role }));
       // document.cookie = `token=${token}`;
       console.log('response data is: ', token, userId, role);
     } catch (error) {
