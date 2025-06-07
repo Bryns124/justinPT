@@ -6,6 +6,7 @@ import Register from './pages/Register'
 import HomePage from './pages/HomePage'
 import Booking from './pages/Booking'
 import Contact from './pages/Contact'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route path="/about" element={<About />} /> */}
           {/* <Route path="/faqs" element={<Faqs />} /> */}
           <Route path="/booking" element={<Booking />} />

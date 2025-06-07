@@ -160,6 +160,108 @@ router.put('/:id/cancel', async(req, res) => {
   }
 })
 
+// Get all bookings for trainer to see
+router.get('/trainer-bookings', authMiddleWare, async(req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user || user.role !== 'trainer') {
+      return res.status(403).json({ message: 'Access denied. Trainer role required.' });
+    }
+
+    const bookings = await Booking.find({ trainer: req.userId }).populate('trainer', 'name email').sort({ timeslot: 1 });
+    res.json({ bookings });
+  } catch (error) {
+    console.error('Error fetching bookings for trainer');
+    res.status(500).json({ message: 'Failed to fetch bookings for trainer' });
+  }
+});
+
+// Confirm bookings (trainer only)
+router.put('/:id/confirm', authMiddleWare, async(req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user || user.role !== 'trainer') {
+      return res.status(403).json({ message: 'Access denied. Trainer role required.' });
+    }
+
+    const booking = await Booking.findOne({
+      _id: req.params.id,
+      trainer: req.userId
+    })
+
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+
+    if (booking.status !== 'pending') {
+      return res.status(400).json({ message: 'Only pending bookings can be confirmed' });
+    }
+
+    booking.status = 'confirmed';
+    await booking.save();
+    await booking.populate('client', 'name email');
+    res.status(200).json({ message: 'Booking successfully confirmed' });
+  } catch (error) {
+    console.error('Error confirmed booking: ', error);
+    res.status(500).json({ message: 'Failed to confirm booking' });
+  }
+})
+
+// Reject bookings (trainer only)
+router.put('/:id/reject', authMiddleWare, async(req, res) => {
+  try {
+    const { rejectionReason } = req.body;
+
+    const user = await User.findById(req.userId);
+    if (!user || user.role !== 'trainer') {
+      return res.status(403).json({ message: 'Access denied. Trainer role required.' });
+    }
+
+    const booking = await Booking.findOne({
+      _id: req.params.id,
+      trainer: req.userId
+    })
+
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+
+    if (booking.status !== 'pending') {
+      return res.status(400).json({ message: 'Only pending bookings can be confirmed' });
+    }
+
+    booking.status = 'cancelled';
+    if (rejectionReason) {
+      booking.notes = booking.notes ? 
+        `${booking.notes}\n\nRejection reason: ${rejectionReason}` : 
+        `Rejection reason: ${rejectionReason}`;
+    }
+
+    await booking.save();
+    await booking.populate('client', 'name email');
+    res.status(200).json({ message: 'Booking successfully rejected' });
+  } catch (error) {
+    console.error('Error confirmed booking: ', error);
+    res.status(500).json({ message: 'Failed to reject booking' });
+  }
+})
+
+// Get pending bookings count (for notifications)
+router.get('/pending-count', authMiddleWare, async(req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user || user.role !== 'trainer') {
+      return res.status(403).json({ message: 'Access denied. Trainer role required.' });
+    }
+
+    const pendingCount = await Booking.countDocuments({
+      trainer: req.userId,
+      status: 'pending'
+    });
+
+    res.json({ pendingCount });
+  } catch (error) {
+    console.error('Error fetching pending count:', error);
+    res.status(500).json({ message: 'Failed to fetch pending bookings count' });
+  }
+});
+
 // Delete cancelled bookings from database
 router.delete('/clear-cancelled', authMiddleWare, async(req, res) => {
   try {
