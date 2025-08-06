@@ -4,6 +4,7 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
+  const API_URL = process.env.REACT_APP_API_URL;
   const [ user, setUser ] = useState(null);
   const [ token, setToken ] = useState(null);
 
@@ -18,7 +19,7 @@ export const AuthProvider = (props) => {
 
   const validateTokenAndSetUser = async (token) => {
     try {
-      const response = await fetch('/api/auth/validate', {
+      const response = await fetch(`${API_URL}/api/auth/validate`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -47,7 +48,7 @@ export const AuthProvider = (props) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', { email, password });
+      const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       const { token, userId, role } = response.data;
       setToken(token);
       setUser({ userId, role });
@@ -63,7 +64,7 @@ export const AuthProvider = (props) => {
   const register = async (name, email, password) => {
     try {
       console.log("Register function called (AuthContext)", name, email, password);
-      const response = await axios.post('/api/auth/register', { name, email, password });
+      const response = await axios.post(`${API_URL}/api/auth/register`, { name, email, password });
       return response.data;
     } catch (error) {
       console.error('Register error: ', error);
