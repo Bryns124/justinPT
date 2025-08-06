@@ -10,7 +10,11 @@ const authRoutes = require('./routes/authRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const trainingProgramRoutes = require('./routes/TrainingProgramRoutes');
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://justinpt.netlify.app/',
+  credentials: true
+}));
+// app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/booking', bookingRoutes);
