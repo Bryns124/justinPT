@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../assets/css/Booking.css';
 
 const Booking = () => {
-  const API_URL = process.env.REACT_APP_API_URL;
   const { user, logout, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -39,7 +38,7 @@ const Booking = () => {
 
   const fetchMyBookings = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/booking/my-bookings`, {
+      const response = await fetch('/api/booking/my-bookings', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -64,7 +63,7 @@ const Booking = () => {
   const fetchAvailability = async (date) => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/api/booking/availability/${date}`, {
+      const response = await fetch(`/api/booking/availability/${date}`, {
         method: 'GET',
         headers: {
           // 'Authorization': `Bearer ${token}`
@@ -118,7 +117,7 @@ const Booking = () => {
 
       console.log('Timeslot to send:', timeslotToSend);
 
-      const response = await fetch(`${API_URL}/api/booking/create`, {
+      const response = await fetch('/api/booking/create', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -153,7 +152,7 @@ const Booking = () => {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      const response = await fetch(`${API_URL}/api/booking/${bookingId}/cancel`, {
+      const response = await fetch(`/api/booking/${bookingId}/cancel`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -206,7 +205,7 @@ const Booking = () => {
 
   const removeExistingCancelledBookings = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/booking/clear-cancelled`, {
+      const response = await fetch('/api/booking/clear-cancelled', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
