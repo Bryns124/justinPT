@@ -11,7 +11,7 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const trainingProgramRoutes = require('./routes/TrainingProgramRoutes');
 
 app.use(cors({
-  origin: 'https://justinpt.netlify.app/',
+  origin: ['https://justinpt.netlify.app', 'http://localhost:3000'],
   credentials: true
 }));
 // app.use(cors());

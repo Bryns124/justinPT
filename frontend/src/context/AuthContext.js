@@ -3,8 +3,9 @@ import axios from 'axios';
 
 export const AuthContext = createContext();
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const AuthProvider = (props) => {
-  const API_URL = process.env.REACT_APP_API_URL;
   const [ user, setUser ] = useState(null);
   const [ token, setToken ] = useState(null);
 
@@ -23,7 +24,7 @@ export const AuthProvider = (props) => {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'appplication/json'
+          'Content-Type': 'application/json'
         }
       });
 
