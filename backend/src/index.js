@@ -10,10 +10,6 @@ const authRoutes = require('./routes/authRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const trainingProgramRoutes = require('./routes/TrainingProgramRoutes');
 
-if (!uri) { console.error('MONGODB_URI is missing'); process.exit(1); }
-await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
-console.log('Mongo connected');
-
 app.use(cors({
   origin: ['https://justinpt.netlify.app', 'http://localhost:3000'],
   credentials: true
@@ -24,9 +20,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/program', trainingProgramRoutes);
 
-mongoose.connect(uri)
+mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 })
   .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
