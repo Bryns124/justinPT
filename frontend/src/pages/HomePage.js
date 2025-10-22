@@ -4,12 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../assets/css/HomePage.css';
 import beforeImage1 from '../assets/imgs/asd1-1.png';
 import afterImage1 from '../assets/imgs/asd1-2.png';
-import beforeImage2 from '../assets/imgs/asd2-1.png';
-import afterImage2 from '../assets/imgs/asd2-2.png';
+// import beforeImage2 from '../assets/imgs/asd2-1.png';
+// import afterImage2 from '../assets/imgs/asd2-2.png';
 import beforeImage3 from '../assets/imgs/asd3-1.png';
 import afterImage3 from '../assets/imgs/asd3-2.png';
-import programImage1 from '../assets/imgs/andrewtatebookLMAO.jpg';
-import programImage2 from '../assets/imgs/ksibookLMAO.jpg';
+import programImage1 from '../assets/imgs/minimalistfitness.png';
+import programImage2 from '../assets/imgs/bodyweightblueprint.png';
 
 const HomePage = () => {
   const { user, logout } = useContext(AuthContext);
@@ -25,13 +25,13 @@ const HomePage = () => {
       quote: "JML Fitness changed my life! I've never felt stronger or more confident.",
       name: "Sarah M."
     },
-    {
-      id: 2,
-      beforeImage: beforeImage2,
-      afterImage: afterImage2,
-      quote: "The personalized approach made all the difference. Real results for real life!",
-      name: "Mike T."
-    },
+    // {
+    //   id: 2,
+    //   beforeImage: beforeImage2,
+    //   afterImage: afterImage2,
+    //   quote: "The personalized approach made all the difference. Real results for real life!",
+    //   name: "Mike T."
+    // },
     {
       id: 3,
       beforeImage: beforeImage3,
