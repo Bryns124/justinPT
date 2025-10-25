@@ -7,6 +7,7 @@ const Login = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ error, setError ] = useState('');
+  const [ showPassword, setShowPassword ] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -40,12 +41,19 @@ const Login = () => {
           </div>
           <div className="login-field">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder='Password'
             />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+            </button>
           </div>
           {error && <div className="login-error">{error}</div>}
           <button type="submit" className="login-btn">

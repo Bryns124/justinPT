@@ -40,6 +40,12 @@
   gap: 1rem;
 }
 
+.login-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .login-field input {
   width: 95%;
   border: none;
@@ -60,6 +66,33 @@
 
 .login-field input:focus::placeholder {
   opacity: 0.3;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #22223b;
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.password-toggle-btn i {
+  transition: transform 0.3s ease;
+}
+
+.password-toggle-btn:active i {
+  transform: scale(1.5, 0.9);
+}
+
+.password-toggle-btn:hover {
+  color: #000;
 }
 
 .login-btn {
