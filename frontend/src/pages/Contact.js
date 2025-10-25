@@ -13,6 +13,7 @@ const Contact = () => {
   const [ isSubmitting, setIsSubmitting ] = useState(false);
   const [ submitStatus, setSubmitStatus ] = useState('');
   const { user, logout } = useContext(AuthContext);
+  const role = user?.role;
   const navigate = useNavigate();
 
   
@@ -58,17 +59,21 @@ const Contact = () => {
   return (
     <>
     <header className="homepage-header">
-    <Link to="/" style={{ textDecoration: 'none' }}>
-      <div className="logo">JML Fitness</div>
-    </Link>
+      <Link to="/" style={{ textDecoration: 'none' }}>
+        <div className="logo">JML Fitness</div>
+      </Link>
       <nav>
+        {user && (
+          <>
+          <Link to="/dashboard">Dashboard</Link>
+          </>
+        )}
         <Link to="/about">About</Link>
         <Link to="/programs">Programs</Link>
         <Link to="/faqs">FAQs</Link>
-        <Link to="/contact">Contact</Link>
+        {role !== 'trainer' && <Link to="/contact">Contact</Link>}
         {user ? (
           <>
-            <Link to="/dashboard">Dashboard</Link>
             <button className="logout-link" onClick={handleLogout}>
               Logout
             </button>

@@ -8,6 +8,11 @@ Link {
   text-decoration: none;
 }
 
+:root {
+  --header-height: 96px;
+  --header-bg: rgba(0,0,0,0.8);
+}
+
 .homepage {
   min-height: 100vh;
   display: flex;
@@ -21,22 +26,32 @@ Link {
   background-image: url('../imgs/gym-image.jpg');
   background-size: cover;
   background-position: center;
-  padding-top: 98px;
+  padding-top: var(--header-height);
 }
 
 .homepage-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: var(--header-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 64px 16px 64px;
-  /* background: transparent; */
-  background: #000;
-  opacity: 0.8;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  padding: 0 64px;
+  background: var(--header-bg);
+  backdrop-filter: saturate(120%);
+}
+
+.homepage-hero {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+}
+
+.section-overlay {
+  background: rgba(0,0,0,0.8);
 }
 
 .logo {

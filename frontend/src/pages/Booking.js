@@ -5,6 +5,7 @@ import '../assets/css/Booking.css';
 
 const Booking = () => {
   const { user, logout, token } = useContext(AuthContext);
+  const role = user?.role;
   const navigate = useNavigate();
 
   const [ selectedDate, setSelectedDate ] = useState('');
@@ -238,7 +239,7 @@ const Booking = () => {
           <Link to="/about">About</Link>
           <Link to="/programs">Programs</Link>
           <Link to="/faqs">FAQs</Link>
-          <Link to="/contact">Contact</Link>
+          {role !== 'trainer' && <Link to="/contact">Contact</Link>}
           {user ? (
             <>
               <button className="logout-link" onClick={handleLogout}>

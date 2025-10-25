@@ -13,9 +13,11 @@ import programImage2 from '../assets/imgs/bodyweightblueprint.png';
 
 const HomePage = () => {
   const { user, logout } = useContext(AuthContext);
+  const role = user?.role;
   const navigate = useNavigate();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [testimonialTransitioning, setTestimonialTransitioning] = useState(false);
+
 
   const testimonials = [
     {
@@ -74,9 +76,9 @@ const HomePage = () => {
     <div className="homepage">
       <div className="main-container">
         <header className="homepage-header">
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <div className="logo">JML Fitness</div>
-        </Link>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <div className="logo">JML Fitness</div>
+          </Link>
           <nav>
             {user && (
               <>
@@ -86,7 +88,7 @@ const HomePage = () => {
             <Link to="/about">About</Link>
             <Link to="/programs">Programs</Link>
             <Link to="/faqs">FAQs</Link>
-            <Link to="/contact">Contact</Link>
+            {role !== 'trainer' && <Link to="/contact">Contact</Link>}
             {user ? (
               <>
                 <button className="logout-link" onClick={handleLogout}>
