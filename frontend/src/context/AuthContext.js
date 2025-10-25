@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect  } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
@@ -73,11 +74,14 @@ export const AuthProvider = (props) => {
     }
   }
 
-  const logout = () => {
+  const logout = (navigate) => {
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
     // document.cookie='';
+    if (navigate) {
+      navigate('/');
+    }
   }
 
   return (

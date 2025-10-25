@@ -42,8 +42,7 @@ const HomePage = () => {
   ];
 
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    logout(navigate);
   }
 
   const handleBooking = () => {
@@ -90,9 +89,9 @@ const HomePage = () => {
             <Link to="/contact">Contact</Link>
             {user ? (
               <>
-                <Link className="logout-link" onClick={handleLogout}>
+                <button className="logout-link" onClick={handleLogout}>
                   Logout
-                </Link>
+                </button>
               </>
             ) : (
               <Link to="/login">Login</Link>

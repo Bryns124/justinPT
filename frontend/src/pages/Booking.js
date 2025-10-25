@@ -183,8 +183,7 @@ const Booking = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    logout(navigate);
   };
 
   const formatDate = (dateString) => {
@@ -242,9 +241,9 @@ const Booking = () => {
           <Link to="/contact">Contact</Link>
           {user ? (
             <>
-              <Link className="logout-link" onClick={handleLogout}>
+              <button className="logout-link" onClick={handleLogout}>
                 Logout
-              </Link>
+              </button>
             </>
           ) : (
             <Link to="/login">Login</Link>

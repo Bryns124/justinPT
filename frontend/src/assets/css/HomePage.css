@@ -64,6 +64,39 @@ nav a:hover {
   color: #49c78c;
 }
 
+nav a,
+nav button.logout-link {
+  display: inline;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+
+nav a:hover,
+nav button.logout-link:hover {
+  color: #49c78c;
+}
+
+
+nav button.logout-link:focus {
+  outline: none;
+}
+
+
+nav > a,
+nav > button.logout-link {
+  align-self: center;
+}
+
 .booking-btn {
   display: inline-block;
   margin-left: 40px;

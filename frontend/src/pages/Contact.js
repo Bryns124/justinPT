@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 import '../assets/css/Contact.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import handleLogout from './HomePage';
 import handleBooking from './HomePage';
 import emailjs from '@emailjs/browser';
 
@@ -13,7 +12,8 @@ const Contact = () => {
   const [ message, setMessage ] = useState('');
   const [ isSubmitting, setIsSubmitting ] = useState(false);
   const [ submitStatus, setSubmitStatus ] = useState('');
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   
   const handleSubmit = async (e) => {
@@ -50,6 +50,11 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   }
+
+  const handleLogout = () => {
+    logout(navigate);
+  };
+
   return (
     <>
     <header className="homepage-header">
@@ -64,9 +69,9 @@ const Contact = () => {
         {user ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
-            <Link className="logout-link" onClick={handleLogout}>
+            <button className="logout-link" onClick={handleLogout}>
               Logout
-            </Link>
+            </button>
           </>
         ) : (
           <Link to="/login">Login</Link>
