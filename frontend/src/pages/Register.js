@@ -70,7 +70,7 @@ const Register = () => {
               className="password-toggle-btn"
               onClick={() => setShowPassword(!showPassword)}
             >
-              <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+              <i className={showPassword ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}></i>
             </button>
           </div>
           <div className="login-field">
@@ -86,7 +86,7 @@ const Register = () => {
               className="password-toggle-btn"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              <i className={showConfirmPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+              <i className={showConfirmPassword ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}></i>
             </button>
           </div>
           {error && <div className="login-error">{error}</div>}
